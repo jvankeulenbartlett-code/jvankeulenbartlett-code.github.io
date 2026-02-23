@@ -1,74 +1,453 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-<title>Joshua | Cyber Security Portfolio</title>
-<style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Joshua Vankeulen-Bartlett | Cyber Security Portfolio</title>
+  <meta name="description" content="Cyber Security portfolio focused on offensive security, Active Directory labs, and hands-on learning in Sweden." />
 
-body {
-  background:#0d1117;
-  color:#e6edf3;
-  font-family:Arial, sans-serif;
-  text-align:center;
-  margin:0;
-}
+  <style>
+    :root{
+      --bg:#05070f;
+      --panel:#0a1022;
+      --panel2:#070c1a;
+      --text:#e6edf3;
+      --muted:#a7b4c0;
 
-.container {
-  max-width:900px;
-  margin:auto;
-  padding:40px 20px;
-}
+      /* Cyberpunk palette */
+      --accent:#00e5ff;   /* neon cyan */
+      --accent2:#ff00ff;  /* neon magenta */
+      --accent3:#7CFF6B;  /* neon green (terminal) */
 
-.card {
-  background:#161b22;
-  padding:25px;
-  margin:25px 0;
-  border-radius:12px;
-  box-shadow:0 0 10px rgba(0,0,0,0.4);
-  transition:0.3s;
-}
+      --border:rgba(255,255,255,.10);
+      --shadow: 0 14px 34px rgba(0,0,0,.55);
+      --radius:18px;
+    }
 
-.card:hover {
-  transform:translateY(-3px);
-}
+    *{box-sizing:border-box}
+    html,body{margin:0; padding:0; background:var(--bg); color:var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";}
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
 
-h1 {
-  color:#58a6ff;
-}
+    /* ===== CYBERPUNK BACKGROUND (grid + scanlines + neon haze) ===== */
+    body:before{
+      content:"";
+      position:fixed; inset:0;
+      background:
+        radial-gradient(900px 520px at 18% 12%, rgba(0,229,255,.18), transparent 60%),
+        radial-gradient(760px 480px at 82% 16%, rgba(255,0,255,.14), transparent 62%),
+        radial-gradient(640px 520px at 60% 80%, rgba(124,255,107,.08), transparent 62%),
+        /* subtle top glow */
+        linear-gradient(to bottom, rgba(255,255,255,.04), transparent 38%),
+        /* big grid */
+        repeating-linear-gradient(90deg, rgba(0,229,255,.035) 0 1px, transparent 1px 68px),
+        repeating-linear-gradient(0deg, rgba(0,229,255,.028) 0 1px, transparent 1px 68px),
+        /* scanlines */
+        repeating-linear-gradient(
+          0deg,
+          rgba(0,229,255,.028) 0px,
+          rgba(0,229,255,.028) 1px,
+          transparent 1px,
+          transparent 5px
+        ),
+        var(--bg);
+      pointer-events:none;
+      opacity:.95;
+      filter:saturate(1.1);
+    }
 
-h2 {
-  color:#79c0ff;
-}
+    /* slight noise overlay (no external assets) */
+    body:after{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,.03), transparent 30%),
+        radial-gradient(circle at 70% 70%, rgba(255,255,255,.02), transparent 32%),
+        linear-gradient(0deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      mix-blend-mode: overlay;
+      opacity:.25;
+    }
 
-a {
-  color:#58a6ff;
-  text-decoration:none;
-}
+    .wrap{position:relative; max-width:1060px; margin:0 auto; padding:28px 18px 80px;}
 
-a:hover {
-  text-decoration:underline;
-}
-</style>
+    header{
+      display:flex; flex-direction:column; gap:14px;
+      padding:26px 18px;
+      border:1px solid rgba(0,229,255,.18);
+      border-radius:var(--radius);
+      background:
+        linear-gradient(180deg, rgba(10,16,34,.92), rgba(7,12,26,.88));
+      box-shadow:
+        0 0 0 1px rgba(255,0,255,.06),
+        0 0 28px rgba(0,229,255,.10),
+        var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+
+    /* subtle animated neon sweep */
+    header:before{
+      content:"";
+      position:absolute;
+      inset:-120px -40px auto -40px;
+      height:220px;
+      background: linear-gradient(90deg, transparent, rgba(0,229,255,.10), rgba(255,0,255,.08), transparent);
+      transform: rotate(-6deg);
+      animation: sweep 9s linear infinite;
+      opacity:.55;
+      pointer-events:none;
+    }
+    @keyframes sweep{
+      0%{ transform:translateX(-40%) rotate(-6deg); }
+      100%{ transform:translateX(40%) rotate(-6deg); }
+    }
+
+    .toprow{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
+
+    .tag{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.28);
+      color:var(--muted);
+      font-size:13px;
+      letter-spacing:.2px;
+      backdrop-filter: blur(6px);
+    }
+    .tag b{color:var(--text); font-weight:600}
+
+    .actions{display:flex; gap:10px; flex-wrap:wrap}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:10px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.26);
+      color:var(--text);
+      font-weight:700;
+      font-size:14px;
+      transition:transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
+      backdrop-filter: blur(6px);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      background:rgba(0,0,0,.36);
+      border-color:rgba(0,229,255,.35);
+      box-shadow: 0 0 18px rgba(0,229,255,.10);
+      text-decoration:none
+    }
+    .btn.primary{
+      background:rgba(0,229,255,.12);
+      border-color:rgba(0,229,255,.32);
+      box-shadow: 0 0 20px rgba(0,229,255,.10);
+    }
+    .btn.primary:hover{
+      background:rgba(0,229,255,.18);
+      border-color:rgba(255,0,255,.28);
+      box-shadow: 0 0 24px rgba(255,0,255,.08), 0 0 24px rgba(0,229,255,.10);
+    }
+
+    /* ===== Glitch Name (professional-by-default; stronger on hover) ===== */
+    h1{
+      margin:0;
+      font-size:38px;
+      line-height:1.1;
+      letter-spacing:-.6px;
+      position:relative;
+      text-shadow:
+        0 0 10px rgba(0,229,255,.55),
+        0 0 22px rgba(255,0,255,.22);
+    }
+    h1:hover{
+      animation: glitch .28s infinite;
+    }
+    @keyframes glitch{
+      0% { transform: translate(0); }
+      20% { transform: translate(-1px, 1px); }
+      40% { transform: translate(1px, -1px); }
+      60% { transform: translate(-1px, -1px); }
+      80% { transform: translate(1px, 1px); }
+      100% { transform: translate(0); }
+    }
+
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      font-size:15.5px;
+      line-height:1.5;
+      max-width:72ch;
+    }
+
+    .pillrow{display:flex; gap:10px; flex-wrap:wrap; margin-top:6px}
+    .pill{
+      font-size:13px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.18);
+      color:var(--muted);
+      backdrop-filter: blur(6px);
+    }
+    .pill strong{color:var(--text); font-weight:700}
+
+    main{margin-top:18px; display:grid; grid-template-columns: 1.1fr .9fr; gap:16px}
+    @media (max-width: 920px){ main{grid-template-columns:1fr} }
+
+    .card{
+      border:1px solid rgba(0,229,255,.14);
+      border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(10,16,34,.90), rgba(7,12,26,.86));
+      box-shadow:
+        0 0 0 1px rgba(255,0,255,.05),
+        0 0 26px rgba(0,229,255,.08),
+        var(--shadow);
+      padding:18px;
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+      backdrop-filter: blur(6px);
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      border-color: rgba(0,229,255,.24);
+      box-shadow:
+        0 0 0 1px rgba(255,0,255,.08),
+        0 0 30px rgba(0,229,255,.12),
+        0 0 54px rgba(255,0,255,.06),
+        var(--shadow);
+    }
+
+    .card h2{
+      margin:0 0 10px 0;
+      font-size:18px;
+      letter-spacing:-.2px;
+      display:flex; align-items:center; gap:10px;
+    }
+
+    .dot{
+      width:9px; height:9px; border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 18px rgba(0,229,255,.55);
+    }
+    .dot.green{
+      background:var(--accent3);
+      box-shadow:0 0 18px rgba(124,255,107,.45);
+    }
+
+    .card p{margin:0; color:var(--muted); line-height:1.6; font-size:14.5px}
+
+    .grid{display:grid; grid-template-columns:1fr; gap:12px}
+
+    .project{
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:14px;
+      padding:14px;
+      background:rgba(0,0,0,.18);
+      transition:transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
+    }
+    .project:hover{
+      transform:translateY(-2px);
+      border-color:rgba(0,229,255,.28);
+      background:rgba(0,0,0,.24);
+      box-shadow: 0 0 18px rgba(0,229,255,.10);
+    }
+    .project h3{margin:0 0 6px 0; font-size:15.5px}
+
+    .meta{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+    .chip{
+      font-size:12px;
+      padding:6px 8px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      color:var(--muted);
+      background:rgba(0,0,0,.14);
+      backdrop-filter: blur(6px);
+    }
+
+    ul{margin:10px 0 0 18px; color:var(--muted); line-height:1.7; font-size:14.5px}
+    li{margin:6px 0}
+
+    .footer{
+      margin-top:18px;
+      color:rgba(167,180,192,.85);
+      font-size:12.5px;
+      text-align:center;
+    }
+
+    /* ===== Terminal block: neon console ===== */
+    .terminal{
+      margin-top:14px;
+      border:1px solid rgba(0,229,255,.26);
+      border-radius:14px;
+      background:rgba(0,0,0,.28);
+      overflow:hidden;
+      box-shadow:
+        0 0 24px rgba(0,229,255,.10),
+        inset 0 0 16px rgba(0,0,0,.85);
+    }
+    .termbar{
+      display:flex; gap:8px; align-items:center;
+      padding:10px 12px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      color:rgba(167,180,192,.9);
+      font-size:12.5px;
+      background: linear-gradient(90deg, rgba(0,229,255,.06), rgba(255,0,255,.04));
+    }
+    .lights{display:flex; gap:7px}
+    .light{width:10px;height:10px;border-radius:50%}
+    .r{background:#ff5f56}.y{background:#ffbd2e}.g{background:#27c93f}
+
+    .termcontent{
+      padding:12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      font-size:12.8px;
+      color:#cfe8ff;
+      line-height:1.6;
+      white-space:pre-wrap;
+      position:relative;
+    }
+    .prompt{color:var(--accent3)}
+    .cmd{color:var(--accent)}
+
+    /* blinking cursor */
+    .cursor{
+      display:inline-block;
+      width:8px;
+      height:14px;
+      background:var(--accent);
+      margin-left:4px;
+      transform: translateY(2px);
+      animation: blink 1s infinite;
+      box-shadow: 0 0 12px rgba(0,229,255,.45);
+    }
+    @keyframes blink{ 50% { opacity:0; } }
+
+    /* small separator */
+    .rule{
+      height:1px;
+      background: linear-gradient(90deg, transparent, rgba(0,229,255,.35), rgba(255,0,255,.25), transparent);
+      margin:14px 0;
+      opacity:.55;
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce){
+      header:before, h1:hover, .cursor { animation:none !important; }
+      .card:hover, .project:hover, .btn:hover { transform:none !important; }
+    }
+  </style>
 </head>
 
 <body>
+  <div class="wrap">
+    <header>
+      <div class="toprow">
+        <div class="tag">🇸🇪 Based in Sweden • <b>Offensive Security Path</b> • <span style="color:rgba(0,229,255,.9)">NEON BUILD</span></div>
+        <div class="actions">
+          <a class="btn primary" href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn" href="mailto:YOUR_EMAIL">Email</a>
+          <a class="btn" href="https://github.com/jvankeulenbartlett-code" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
 
-<h1>Joshua Vankeulen-Bartlett</h1>
-<p>Cyber Security Student | Offensive Security Path | Sweden 🇸🇪</p>
+      <h1>Joshua Vankeulen-Bartlett</h1>
+      <p class="subtitle">
+        Nearly completed BSc + DipHE in Cyber Security. Building hands-on offensive security skills with
+        Active Directory labs, networking, and practical testing workflows.
+      </p>
 
-<div class="section">
-<h2>About Me</h2>
-<p>Nearly completed BSc in Cyber Security. Focused on offensive security, Active Directory labs, networking and real-world hands-on learning.</p>
-</div>
+      <div class="pillrow">
+        <span class="pill"><strong>Focus:</strong> Red Team / Offensive</span>
+        <span class="pill"><strong>Labs:</strong> AD • pfSense/OPNsense • Windows</span>
+        <span class="pill"><strong>Platforms:</strong> HTB / THM</span>
+        <span class="pill"><strong>Next:</strong> CEH → OSCP</span>
+      </div>
 
-<div class="section">
-<h2>Skills</h2>
-<p>Kali Linux | Active Directory | Networking | HTB | Enumeration</p>
-</div>
+      <div class="terminal">
+        <div class="termbar">
+          <div class="lights"><span class="light r"></span><span class="light y"></span><span class="light g"></span></div>
+          <span>portfolio@joshua:~</span>
+        </div>
+        <div class="termcontent"><span class="prompt">joshua@sweden</span>:<span class="cmd">~</span>$ whoami
+Cyber Security Student — Offensive Security Path
+<span class="prompt">joshua@sweden</span>:<span class="cmd">~</span>$ cat goals.txt
+• Build real-world projects and document them clearly
+• Secure internship / junior role (remote or Sweden)
+• Grow into Red Team role by 2027<span class="cursor"></span></div>
+      </div>
+    </header>
 
-<div class="section">
-<h2>Contact</h2>
-<p><a href="https://linkedin.com">LinkedIn</a></p>
-</div>
+    <main>
+      <section class="card">
+        <h2><span class="dot"></span>Projects</h2>
 
+        <div class="grid">
+          <div class="project">
+            <h3>Home Lab: AD + pfSense/OPNsense</h3>
+            <p>Built a segmented lab environment to practice identity + network fundamentals and validate configurations.</p>
+            <div class="meta">
+              <span class="chip">AD DS / DNS / DHCP</span>
+              <span class="chip">Firewall Rules</span>
+              <span class="chip">Segmentation</span>
+            </div>
+          </div>
+
+          <div class="project">
+            <h3>Attack → Detection → Response Demo (in progress)</h3>
+            <p>One realistic attack chain mapped to detections + a simple response playbook to prove end-to-end thinking.</p>
+            <div class="meta">
+              <span class="chip">Detection Engineering</span>
+              <span class="chip">IR Playbook</span>
+              <span class="chip">MITRE</span>
+            </div>
+          </div>
+
+          <div class="project">
+            <h3>HTB / THM Notes (sanitised)</h3>
+            <p>Documenting methodology, enumeration patterns, and lessons learned — without spoilers.</p>
+            <div class="meta">
+              <span class="chip">Nmap</span>
+              <span class="chip">Web Enum</span>
+              <span class="chip">PrivEsc</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="card">
+        <h2><span class="dot green"></span>Now / Next</h2>
+        <ul>
+          <li><b>Now:</b> Finish BSc + keep building labs weekly</li>
+          <li><b>Now:</b> CEH studies + practical work</li>
+          <li><b>Next:</b> OSCP after September</li>
+          <li><b>Next:</b> Publish 3 portfolio projects with screenshots + writeups</li>
+        </ul>
+
+        <div class="rule"></div>
+
+        <h2><span class="dot"></span>What I’m looking for</h2>
+        <ul>
+          <li>Cyber Security internship (remote or Sweden)</li>
+          <li>Junior security / SOC / security analyst (entry)</li>
+          <li>Open to Malmö / Stockholm / remote</li>
+        </ul>
+
+        <div class="rule"></div>
+
+        <h2><span class="dot"></span>Skills</h2>
+        <p>
+          Kali Linux • Active Directory • Networking • Enumeration • Linux/Windows basics • Documentation
+        </p>
+      </aside>
+    </main>
+
+    <div class="footer">
+      Built with GitHub Pages • Updated by commits • © <span id="y"></span> Joshua Vankeulen-Bartlett
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
