@@ -1,10 +1,9 @@
-
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Joshua Vankeulen-Bartlett | Cyber Security Portfolio</title>
+  <title>NetRunnerZero | Cyber Security Portfolio</title>
   <meta name="description" content="Cyber security portfolio focused on projects, writeups, and hands-on lab work." />
   <style>
     :root{
@@ -70,6 +69,12 @@
       overflow:hidden;
       box-shadow:0 8px 20px rgba(0,0,0,.35);
       background:#111;
+    }
+
+    .avatar img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
     }
 
     .brand h1{
@@ -214,7 +219,7 @@
       border-radius:18px;
       overflow:hidden;
       box-shadow:var(--shadow);
-      min-height:192px;
+      min-height:220px;
       transition:.18s ease;
     }
 
@@ -244,12 +249,12 @@
       color:var(--muted);
       font-size:15px;
       line-height:1.7;
-      max-width:48ch;
+      max-width:56ch;
     }
 
     .meta{
       display:flex;
-      gap:26px;
+      gap:18px;
       flex-wrap:wrap;
       margin-top:18px;
       color:#8d96a7;
@@ -261,6 +266,9 @@
       min-height:100%;
       position:relative;
       overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
 
     .post-image img{
@@ -273,18 +281,6 @@
       padding:22px 22px 40px;
       border-left:1px solid var(--line);
       background:rgba(14,17,24,.82);
-    }
-
-    .search{
-      width:100%;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.03);
-      color:var(--text);
-      border-radius:999px;
-      padding:12px 16px;
-      outline:none;
-      font-size:14px;
-      margin-bottom:28px;
     }
 
     .side-section{
@@ -308,7 +304,7 @@
     .updates a{
       color:var(--muted);
       font-size:14px;
-      line-height:1.5;
+      line-height:1.55;
     }
 
     .updates a:hover{color:var(--text)}
@@ -371,7 +367,7 @@
         <a class="social" href="mailto:jvankeulenbartlett@gmail.com" aria-label="Email">◐</a>
         <a class="social" href="https://github.com/jvankeulenbartlett-code" target="_blank" rel="noopener" aria-label="GitHub"></a>
         <a class="social" href="https://www.linkedin.com/in/joshua-v-b72505210/" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
-        <a class="social" href="#" aria-label="Discord">◉</a>
+        <a class="social" href="#" aria-label="Contact">◉</a>
       </div>
     </aside>
 
@@ -394,25 +390,28 @@
         <article class="post">
           <div class="post-body">
             <div>
-              <h3>Project: Home Lab – Identity & Network Security Environment</h3>
+              <h3>Project: Offensive Security Home Lab (KVM + pfSense)</h3>
               <p>
-                I built a segmented cybersecurity home lab to practice real offensive security workflows.
-                The lab includes Active Directory, Windows Server, and multiple internal networks so I can
-                simulate attacks, perform enumeration, and practice privilege escalation safely.
+                I built a practical offensive security home lab using KVM virtualization, a pfSense firewall,
+                Kali Linux, and a Metasploitable target machine. The lab is designed to simulate a small segmented
+                environment where I can safely practise network discovery, service enumeration, exploitation,
+                and basic post-exploitation workflows.
               </p>
               <p style="margin-top:10px;color:#9aa4b2">
-                The environment is used to study identity infrastructure, network segmentation,
-                and penetration testing methodology in a controlled setting.
+                pfSense is used to manage routing and segmentation between lab networks, while Metasploitable
+                provides an intentionally vulnerable host for testing enumeration and exploitation from a Kali attacker VM.
               </p>
             </div>
             <div class="meta">
               <span>🗓 Mar 2026</span>
               <span>📁 Projects</span>
-              <span>🧪 Active Directory Lab</span>
+              <span>⚙ KVM</span>
+              <span>🛡 pfSense</span>
+              <span>🧪 Metasploitable</span>
             </div>
           </div>
           <div class="post-image">
-            <img src="assets/img/home-lab.png" alt="Cyber Security Home Lab Diagram">
+            <img src="assets/img/home-lab.png" alt="KVM pfSense Metasploitable home lab diagram">
           </div>
         </article>
       </section>
@@ -422,30 +421,30 @@
       <section class="side-section">
         <h4>Current Focus</h4>
         <div class="updates">
-          <a href="#">Building and documenting the home lab clearly</a>
-          <a href="#">Practising Active Directory and Windows security basics</a>
-          <a href="#">Publishing portfolio projects with screenshots and notes</a>
+          <a href="#">Building and documenting the KVM home lab clearly</a>
+          <a href="#">Practising pfSense network segmentation and routing</a>
+          <a href="#">Using Metasploitable for enumeration and exploitation practice</a>
         </div>
       </section>
 
       <section class="side-section">
         <h4>Core Skills</h4>
         <div class="tags">
-          <span class="tag">Active Directory</span>
-          <span class="tag">Windows Server</span>
+          <span class="tag">KVM</span>
+          <span class="tag">pfSense</span>
+          <span class="tag">Metasploitable</span>
+          <span class="tag">Kali Linux</span>
           <span class="tag">Networking</span>
           <span class="tag">Enumeration</span>
-          <span class="tag">Linux</span>
-          <span class="tag">Documentation</span>
         </div>
       </section>
 
       <section class="side-section">
-        <h4>What I’m Working Toward</h4>
+        <h4>Lab Goals</h4>
         <div class="updates">
-          <a href="#">Entry-level cyber security internship or junior role</a>
-          <a href="#">A stronger offensive security portfolio with practical projects</a>
-          <a href="#">Progression from CEH study into OSCP preparation</a>
+          <a href="#">Document the full KVM + pfSense lab setup</a>
+          <a href="#">Publish a Metasploitable enumeration and exploitation walkthrough</a>
+          <a href="#">Expand the lab with additional vulnerable hosts and detections</a>
         </div>
       </section>
     </aside>
