@@ -16,9 +16,12 @@
       --muted:#9aa4b2;
       --line:rgba(255,255,255,.08);
       --blue:#2f81f7;
+      --gold:#c7a36a;
+      --gold-soft:#b59a74;
       --shadow:0 10px 30px rgba(0,0,0,.35);
       --sidebar-w:290px;
       --rightbar-w:290px;
+      --open-bg:rgba(255,255,255,.02);
     }
 
     *{box-sizing:border-box}
@@ -78,13 +81,13 @@
       font-size:22px;
       line-height:1.1;
       font-weight:800;
-      color:#c7a36a;
+      color:var(--gold);
       letter-spacing:.2px;
     }
 
     .brand p{
       margin:0;
-      color:#b59a74;
+      color:var(--gold-soft);
       font-style:italic;
       font-size:15px;
     }
@@ -160,19 +163,11 @@
     }
 
     .hero h2{
-      margin:0 0 12px;
+      margin:0;
       font-size:42px;
       line-height:1.1;
       font-weight:800;
       letter-spacing:-.8px;
-    }
-
-    .hero p{
-      margin:0;
-      color:var(--muted);
-      font-size:16px;
-      line-height:1.7;
-      max-width:850px;
     }
 
     .meta{
@@ -276,6 +271,94 @@
       white-space:pre-wrap;
     }
 
+    .details-group{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      margin-top:10px;
+    }
+
+    details.machine{
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:rgba(255,255,255,.015);
+      overflow:hidden;
+      transition:.18s ease;
+    }
+
+    details.machine[open]{
+      background:var(--open-bg);
+      border-color:rgba(255,255,255,.12);
+    }
+
+    details.machine summary{
+      list-style:none;
+      cursor:pointer;
+      padding:18px 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      font-weight:700;
+      font-size:17px;
+      color:var(--text);
+    }
+
+    details.machine summary::-webkit-details-marker{
+      display:none;
+    }
+
+    .summary-left{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+
+    .summary-icon{
+      width:34px;
+      height:34px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      font-size:16px;
+      flex-shrink:0;
+    }
+
+    .summary-text{
+      min-width:0;
+    }
+
+    .summary-text span{
+      display:block;
+      color:var(--muted);
+      font-size:13px;
+      font-weight:500;
+      margin-top:2px;
+    }
+
+    .chevron{
+      color:var(--muted);
+      font-size:18px;
+      transition:transform .18s ease;
+      flex-shrink:0;
+    }
+
+    details.machine[open] .chevron{
+      transform:rotate(90deg);
+    }
+
+    .details-content{
+      padding:0 20px 20px;
+      border-top:1px solid var(--line);
+    }
+
+    .details-content p:first-child{
+      margin-top:16px;
+    }
+
     .right{
       padding:22px 22px 40px;
       border-left:1px solid var(--line);
@@ -351,13 +434,6 @@
 
       <section class="hero">
         <h2>Offensive Security Home Lab</h2>
-        <p>
-          This project documents the build of my offensive security home lab using KVM virtualization,
-          pfSense firewall routing, Kali Linux as the attacker machine, Metasploitable as a vulnerable Linux target,
-          and a Windows Server Active Directory environment with a joined Windows client. The goal is to create a
-          realistic lab for practising network enumeration, exploitation, Windows domain attacks, and post-exploitation
-          workflows inside an isolated environment.
-        </p>
         <div class="meta">
           <span>🗓 Mar 2026</span>
           <span>⚙ KVM</span>
@@ -373,14 +449,14 @@
       <section class="section">
         <h3>Project Overview</h3>
         <p>
-          The lab is designed to simulate a small enterprise-style environment where an attacker machine can safely
-          interact with both Linux and Windows targets. pfSense acts as the firewall and gateway for the internal
-          network, while Kali Linux provides the offensive tooling used for host discovery, service enumeration,
-          and exploitation within a controlled lab environment.
+          This home lab is built to simulate a small enterprise-style environment for practising offensive security
+          techniques inside a safe and isolated network. The infrastructure includes pfSense for firewall and routing,
+          Kali Linux as the attacker workstation, Metasploitable as a vulnerable Linux target, and a Windows Server
+          Active Directory environment with a joined Windows client.
         </p>
         <p>
-          By adding Windows Server and a domain-joined Windows client, the lab becomes more realistic and useful for
-          learning enterprise-focused offensive security concepts while staying fully isolated from the host operating
+          The goal is to create a realistic space for network enumeration, service discovery, exploitation, privilege
+          escalation, and Windows domain-focused testing while keeping all activity separate from the host operating
           system and home network.
         </p>
       </section>
@@ -439,139 +515,205 @@ Attacker     Target         AD / DNS / DHCP     Domain Joined</div>
       </section>
 
       <section class="section">
-        <h3>pfSense Firewall and Network Configuration</h3>
-        <p>
-          pfSense provides routing, DHCP, and internal network control for the lab. The WAN interface receives an
-          address from the default NAT network, while the LAN interface is configured on the internal segment as
-          <strong>192.168.50.1/24</strong>.
-        </p>
-        <ul>
-          <li>WAN: <strong>vtnet0</strong> on the default NAT network</li>
-          <li>LAN: <strong>vtnet1</strong> on <strong>lab-net</strong></li>
-          <li>LAN IP: <strong>192.168.50.1/24</strong></li>
-          <li>DHCP range: <strong>192.168.50.100 - 192.168.50.200</strong></li>
-        </ul>
+        <h3>Lab Machines</h3>
 
-        <div class="two-col">
-          <div class="mini-card">
-            <img src="assets/img/lab/pfsense-console.png" alt="pfSense console showing WAN and LAN configuration">
-            <div class="caption">
-              pfSense console showing the configured WAN and LAN interfaces.
+        <div class="details-group">
+          <details class="machine">
+            <summary>
+              <div class="summary-left">
+                <div class="summary-icon">🛡</div>
+                <div class="summary-text">
+                  pfSense Firewall
+                  <span>Gateway, routing, DHCP, and network isolation</span>
+                </div>
+              </div>
+              <div class="chevron">›</div>
+            </summary>
+            <div class="details-content">
+              <p>
+                pfSense provides routing, DHCP, and internal network control for the lab. The WAN interface receives an
+                address from the default NAT network, while the LAN interface is configured on the isolated lab segment
+                as <strong>192.168.50.1/24</strong>.
+              </p>
+              <ul>
+                <li>WAN: <strong>vtnet0</strong> on the default NAT network</li>
+                <li>LAN: <strong>vtnet1</strong> on <strong>lab-net</strong></li>
+                <li>LAN IP: <strong>192.168.50.1/24</strong></li>
+                <li>DHCP range: <strong>192.168.50.100 - 192.168.50.200</strong></li>
+              </ul>
+
+              <div class="two-col">
+                <div class="mini-card">
+                  <img src="assets/img/lab/pfsense-console.png" alt="pfSense console showing WAN and LAN configuration">
+                  <div class="caption">
+                    pfSense console showing the configured WAN and LAN interfaces.
+                  </div>
+                </div>
+
+                <div class="mini-card">
+                  <img src="assets/img/lab/labnet-config.png" alt="KVM isolated lab network configuration">
+                  <div class="caption">
+                    KVM isolated virtual network configuration for the internal lab segment.
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+          </details>
 
-          <div class="mini-card">
-            <img src="assets/img/lab/labnet-config.png" alt="KVM isolated lab network configuration">
-            <div class="caption">
-              KVM isolated virtual network configuration for the internal lab segment.
+          <details class="machine">
+            <summary>
+              <div class="summary-left">
+                <div class="summary-icon">🐉</div>
+                <div class="summary-text">
+                  Kali Linux Attacker Machine
+                  <span>Primary offensive security workstation</span>
+                </div>
+              </div>
+              <div class="chevron">›</div>
+            </summary>
+            <div class="details-content">
+              <p>
+                Kali Linux is used as the primary attacker workstation in the environment. After being connected to the
+                internal lab network, it successfully received an IP address from pfSense and was able to communicate
+                with the firewall gateway over the LAN.
+              </p>
+              <ul>
+                <li>Role: Attacker / operator workstation</li>
+                <li>Connected network: <strong>lab-net</strong></li>
+                <li>Observed IP: <strong>192.168.50.182</strong></li>
+                <li>Gateway: <strong>192.168.50.1</strong></li>
+              </ul>
+
+              <div class="two-col">
+                <div class="mini-card">
+                  <img src="assets/img/lab/kali-ip.png" alt="Kali Linux showing IP address on lab network">
+                  <div class="caption">
+                    Kali Linux receiving a DHCP address from pfSense on the isolated lab network.
+                  </div>
+                </div>
+
+                <div class="mini-card">
+                  <img src="assets/img/lab/kali-ping-pfsense.png" alt="Kali Linux pinging pfSense LAN gateway">
+                  <div class="caption">
+                    Connectivity test from Kali to the pfSense LAN gateway at 192.168.50.1.
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </section>
+          </details>
 
-      <section class="section">
-        <h3>Kali Linux Attacker Machine</h3>
-        <p>
-          Kali Linux is used as the primary attacker workstation in the environment. After being connected to the
-          internal lab network, it successfully received an IP address from pfSense and was able to communicate with
-          the firewall gateway over the LAN.
-        </p>
-        <ul>
-          <li>Role: Attacker / operator workstation</li>
-          <li>Connected network: <strong>lab-net</strong></li>
-          <li>Observed IP: <strong>192.168.50.182</strong></li>
-          <li>Gateway: <strong>192.168.50.1</strong></li>
-        </ul>
+          <details class="machine">
+            <summary>
+              <div class="summary-left">
+                <div class="summary-icon">🧪</div>
+                <div class="summary-text">
+                  Metasploitable Linux Target
+                  <span>Intentionally vulnerable system for exploitation practice</span>
+                </div>
+              </div>
+              <div class="chevron">›</div>
+            </summary>
+            <div class="details-content">
+              <p>
+                Metasploitable is included as an intentionally vulnerable Linux target for practising discovery,
+                service enumeration, exploitation, and privilege escalation in a safe and repeatable environment.
+              </p>
+              <ul>
+                <li>Role: Vulnerable Linux target</li>
+                <li>Purpose: Discovery, exploitation, and post-exploitation practice</li>
+                <li>Placement: Internal isolated lab network</li>
+              </ul>
 
-        <div class="two-col">
-          <div class="mini-card">
-            <img src="assets/img/lab/kali-ip.png" alt="Kali Linux showing IP address on lab network">
-            <div class="caption">
-              Kali Linux receiving a DHCP address from pfSense on the isolated lab network.
+              <div class="image-block">
+                <img src="assets/img/lab/metasploitable-console.png" alt="Metasploitable target VM console">
+                <div class="image-caption">
+                  Metasploitable target machine connected to the isolated lab network.
+                </div>
+              </div>
             </div>
-          </div>
+          </details>
 
-          <div class="mini-card">
-            <img src="assets/img/lab/kali-ping-pfsense.png" alt="Kali Linux pinging pfSense LAN gateway">
-            <div class="caption">
-              Connectivity test from Kali to the pfSense LAN gateway at 192.168.50.1.
+          <details class="machine">
+            <summary>
+              <div class="summary-left">
+                <div class="summary-icon">🪟</div>
+                <div class="summary-text">
+                  Windows Server and Active Directory
+                  <span>Enterprise-style domain infrastructure</span>
+                </div>
+              </div>
+              <div class="chevron">›</div>
+            </summary>
+            <div class="details-content">
+              <p>
+                A Windows Server system is included to provide enterprise-style infrastructure through Active Directory,
+                DNS, and domain services. This makes the lab more realistic and supports future Windows-focused testing
+                and domain-based offensive security scenarios.
+              </p>
+              <ul>
+                <li>Role: Domain Controller</li>
+                <li>Services: Active Directory, DNS, domain management</li>
+                <li>Use cases: user and computer management, domain joins, Windows attack-path practice</li>
+              </ul>
+
+              <div class="two-col">
+                <div class="mini-card">
+                  <img src="assets/img/lab/windows-server.png" alt="Windows Server running in the lab">
+                  <div class="caption">
+                    Windows Server VM running as part of the internal lab environment.
+                  </div>
+                </div>
+
+                <div class="mini-card">
+                  <img src="assets/img/lab/ad-users-computers.png" alt="Active Directory Users and Computers">
+                  <div class="caption">
+                    Active Directory Users and Computers showing the domain structure and managed objects.
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </section>
+          </details>
 
-      <section class="section">
-        <h3>Linux Target: Metasploitable</h3>
-        <p>
-          Metasploitable is included as an intentionally vulnerable Linux target for practising discovery, service
-          enumeration, and exploitation in a safe and repeatable environment.
-        </p>
+          <details class="machine">
+            <summary>
+              <div class="summary-left">
+                <div class="summary-icon">💻</div>
+                <div class="summary-text">
+                  Windows Client
+                  <span>Domain-joined workstation for enterprise realism</span>
+                </div>
+              </div>
+              <div class="chevron">›</div>
+            </summary>
+            <div class="details-content">
+              <p>
+                A Windows client machine is used to represent a normal domain workstation inside the environment. Once
+                joined to the domain, it becomes useful for testing Windows administration, client behaviour, lateral
+                movement concepts, and domain-integrated attack scenarios.
+              </p>
+              <ul>
+                <li>Role: Domain-joined workstation</li>
+                <li>Purpose: Simulate a normal enterprise endpoint</li>
+                <li>Use case: Support realistic Windows lab architecture</li>
+              </ul>
 
-        <div class="image-block">
-          <img src="assets/img/lab/metasploitable-console.png" alt="Metasploitable target VM console">
-          <div class="image-caption">
-            Metasploitable target machine connected to the isolated lab network.
-          </div>
-        </div>
-      </section>
+              <div class="two-col">
+                <div class="mini-card">
+                  <img src="assets/img/lab/windows-client.png" alt="Windows client machine in the lab">
+                  <div class="caption">
+                    Windows client machine connected to the internal lab network.
+                  </div>
+                </div>
 
-      <section class="section">
-        <h3>Windows Server and Active Directory</h3>
-        <p>
-          A Windows Server system is included to provide enterprise-style infrastructure through Active Directory,
-          DNS, and domain services. This makes the lab far more realistic and supports future Windows-focused testing
-          and domain-based security scenarios.
-        </p>
-        <ul>
-          <li>Role: Domain Controller</li>
-          <li>Services: Active Directory, DNS, domain management</li>
-          <li>Use cases: user and computer management, domain joins, Windows attack-path practice</li>
-        </ul>
-
-        <div class="two-col">
-          <div class="mini-card">
-            <img src="assets/img/lab/windows-server.png" alt="Windows Server running in the lab">
-            <div class="caption">
-              Windows Server VM running as part of the internal lab environment.
+                <div class="mini-card">
+                  <img src="assets/img/lab/domain-join.png" alt="Windows client joined to Active Directory domain">
+                  <div class="caption">
+                    Windows client successfully joined to the Active Directory domain.
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-
-          <div class="mini-card">
-            <img src="assets/img/lab/ad-users-computers.png" alt="Active Directory Users and Computers">
-            <div class="caption">
-              Active Directory Users and Computers showing the domain structure and managed objects.
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <h3>Windows Client</h3>
-        <p>
-          A Windows client machine is used to represent a normal domain workstation inside the environment. Once
-          joined to the domain, it becomes useful for testing Windows administration, client behaviour, and
-          domain-integrated lab scenarios.
-        </p>
-        <ul>
-          <li>Role: Domain-joined workstation</li>
-          <li>Purpose: simulate a normal enterprise endpoint</li>
-          <li>Use case: support realistic Windows lab architecture</li>
-        </ul>
-
-        <div class="two-col">
-          <div class="mini-card">
-            <img src="assets/img/lab/windows-client.png" alt="Windows client machine in the lab">
-            <div class="caption">
-              Windows client machine connected to the internal lab network.
-            </div>
-          </div>
-
-          <div class="mini-card">
-            <img src="assets/img/lab/domain-join.png" alt="Windows client joined to Active Directory domain">
-            <div class="caption">
-              Windows client successfully joined to the Active Directory domain.
-            </div>
-          </div>
+          </details>
         </div>
       </section>
 
@@ -580,7 +722,7 @@ Attacker     Target         AD / DNS / DHCP     Domain Joined</div>
         <p>
           This lab provides a practical foundation for developing offensive security skills in a safe, controlled,
           and expandable environment. It combines network infrastructure, Linux targets, and Windows domain services
-          into a single portfolio project that can be extended as the environment grows.
+          into a single portfolio project that can grow as new machines, services, and attack paths are added.
         </p>
       </section>
     </main>
@@ -593,7 +735,7 @@ Attacker     Target         AD / DNS / DHCP     Domain Joined</div>
           <div>LAN set to 192.168.50.1/24</div>
           <div>Kali connected to lab-net</div>
           <div>Kali to pfSense connectivity confirmed</div>
-          <div>Windows expansion planned for enterprise realism</div>
+          <div>Windows Server and client integrated</div>
         </div>
       </section>
 
@@ -605,23 +747,6 @@ Attacker     Target         AD / DNS / DHCP     Domain Joined</div>
           <div>Metasploitable Linux target</div>
           <div>Windows Server domain controller</div>
           <div>Windows domain-joined client</div>
-        </div>
-      </section>
-
-      <section class="side-section">
-        <h4>Image Paths</h4>
-        <div class="updates">
-          <div>assets/img/home-lab.png</div>
-          <div>assets/img/lab/vm-list.png</div>
-          <div>assets/img/lab/pfsense-console.png</div>
-          <div>assets/img/lab/labnet-config.png</div>
-          <div>assets/img/lab/kali-ip.png</div>
-          <div>assets/img/lab/kali-ping-pfsense.png</div>
-          <div>assets/img/lab/metasploitable-console.png</div>
-          <div>assets/img/lab/windows-server.png</div>
-          <div>assets/img/lab/ad-users-computers.png</div>
-          <div>assets/img/lab/windows-client.png</div>
-          <div>assets/img/lab/domain-join.png</div>
         </div>
       </section>
     </aside>
