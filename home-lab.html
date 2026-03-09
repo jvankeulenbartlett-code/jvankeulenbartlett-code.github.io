@@ -337,8 +337,6 @@
       <nav class="nav">
         <a href="index.html"><span class="icon">⌂</span> Home</a>
         <a href="about.html"><span class="icon">👤</span> About Me</a>
-        <a class="active" href="home-lab.html"><span class="icon">⌘</span> Projects</a>
-        <a href="writeups.html"><span class="icon">⚑</span> Write Ups</a>
       </nav>
 
       <div class="left-footer">
@@ -378,12 +376,12 @@
           The lab is designed to simulate a small enterprise-style environment where an attacker machine can safely
           interact with both Linux and Windows targets. pfSense acts as the firewall and gateway for the internal
           network, while Kali Linux provides the offensive tooling used for host discovery, service enumeration,
-          exploitation, and later Active Directory attack paths.
+          and exploitation within a controlled lab environment.
         </p>
         <p>
           By adding Windows Server and a domain-joined Windows client, the lab becomes more realistic and useful for
-          learning enterprise-focused offensive security techniques such as SMB enumeration, LDAP discovery,
-          Kerberos-related attacks, BloodHound collection, and lateral movement concepts.
+          learning enterprise-focused offensive security concepts while staying fully isolated from the host operating
+          system and home network.
         </p>
       </section>
 
@@ -409,8 +407,6 @@ Kali      Metasploitable   Windows Server      Windows Client
 Attacker     Target         AD / DNS / DHCP     Domain Joined</div>
 
         <div class="image-block">
-          <!-- MAIN ARCHITECTURE DIAGRAM GOES HERE -->
-          <!-- Suggested file: assets/img/home-lab.png -->
           <img src="assets/img/home-lab.png" alt="Offensive security home lab architecture diagram">
           <div class="image-caption">
             Architecture diagram showing pfSense, Kali Linux, Metasploitable, Windows Server, and a Windows client on the isolated lab network.
@@ -435,8 +431,6 @@ Attacker     Target         AD / DNS / DHCP     Domain Joined</div>
         </ul>
 
         <div class="image-block">
-          <!-- VIRT-MANAGER VM LIST SCREENSHOT GOES HERE -->
-          <!-- Suggested file: assets/img/lab/vm-list.png -->
           <img src="assets/img/lab/vm-list.png" alt="virt-manager showing all lab virtual machines">
           <div class="image-caption">
             virt-manager showing the full lab environment and virtual machine inventory.
@@ -460,8 +454,6 @@ Attacker     Target         AD / DNS / DHCP     Domain Joined</div>
 
         <div class="two-col">
           <div class="mini-card">
-            <!-- PFSENSE CONSOLE SCREENSHOT GOES HERE -->
-            <!-- Suggested file: assets/img/lab/pfsense-console.png -->
             <img src="assets/img/lab/pfsense-console.png" alt="pfSense console showing WAN and LAN configuration">
             <div class="caption">
               pfSense console showing the configured WAN and LAN interfaces.
@@ -469,8 +461,6 @@ Attacker     Target         AD / DNS / DHCP     Domain Joined</div>
           </div>
 
           <div class="mini-card">
-            <!-- KVM LAB NETWORK CONFIGURATION SCREENSHOT GOES HERE -->
-            <!-- Suggested file: assets/img/lab/labnet-config.png -->
             <img src="assets/img/lab/labnet-config.png" alt="KVM isolated lab network configuration">
             <div class="caption">
               KVM isolated virtual network configuration for the internal lab segment.
@@ -495,8 +485,6 @@ Attacker     Target         AD / DNS / DHCP     Domain Joined</div>
 
         <div class="two-col">
           <div class="mini-card">
-            <!-- KALI IP ADDRESS SCREENSHOT GOES HERE -->
-            <!-- Suggested file: assets/img/lab/kali-ip.png -->
             <img src="assets/img/lab/kali-ip.png" alt="Kali Linux showing IP address on lab network">
             <div class="caption">
               Kali Linux receiving a DHCP address from pfSense on the isolated lab network.
@@ -504,8 +492,6 @@ Attacker     Target         AD / DNS / DHCP     Domain Joined</div>
           </div>
 
           <div class="mini-card">
-            <!-- KALI PING TO PFSENSE SCREENSHOT GOES HERE -->
-            <!-- Suggested file: assets/img/lab/kali-ping-pfsense.png -->
             <img src="assets/img/lab/kali-ping-pfsense.png" alt="Kali Linux pinging pfSense LAN gateway">
             <div class="caption">
               Connectivity test from Kali to the pfSense LAN gateway at 192.168.50.1.
@@ -518,13 +504,10 @@ Attacker     Target         AD / DNS / DHCP     Domain Joined</div>
         <h3>Linux Target: Metasploitable</h3>
         <p>
           Metasploitable is included as an intentionally vulnerable Linux target for practising discovery, service
-          enumeration, exploitation, and post-exploitation workflows. It provides a controlled way to test tools and
-          offensive methodology without attacking production systems.
+          enumeration, and exploitation in a safe and repeatable environment.
         </p>
 
         <div class="image-block">
-          <!-- METASPLOITABLE SCREENSHOT GOES HERE -->
-          <!-- Suggested file: assets/img/lab/metasploitable-console.png -->
           <img src="assets/img/lab/metasploitable-console.png" alt="Metasploitable target VM console">
           <div class="image-caption">
             Metasploitable target machine connected to the isolated lab network.
@@ -536,8 +519,8 @@ Attacker     Target         AD / DNS / DHCP     Domain Joined</div>
         <h3>Windows Server and Active Directory</h3>
         <p>
           A Windows Server system is included to provide enterprise-style infrastructure through Active Directory,
-          DNS, and domain services. This makes the lab far more realistic and supports future testing of
-          Windows-focused enumeration and authentication workflows.
+          DNS, and domain services. This makes the lab far more realistic and supports future Windows-focused testing
+          and domain-based security scenarios.
         </p>
         <ul>
           <li>Role: Domain Controller</li>
@@ -547,8 +530,6 @@ Attacker     Target         AD / DNS / DHCP     Domain Joined</div>
 
         <div class="two-col">
           <div class="mini-card">
-            <!-- WINDOWS SERVER DESKTOP / SERVER MANAGER SCREENSHOT GOES HERE -->
-            <!-- Suggested file: assets/img/lab/windows-server.png -->
             <img src="assets/img/lab/windows-server.png" alt="Windows Server running in the lab">
             <div class="caption">
               Windows Server VM running as part of the internal lab environment.
@@ -556,8 +537,6 @@ Attacker     Target         AD / DNS / DHCP     Domain Joined</div>
           </div>
 
           <div class="mini-card">
-            <!-- ACTIVE DIRECTORY USERS AND COMPUTERS SCREENSHOT GOES HERE -->
-            <!-- Suggested file: assets/img/lab/ad-users-computers.png -->
             <img src="assets/img/lab/ad-users-computers.png" alt="Active Directory Users and Computers">
             <div class="caption">
               Active Directory Users and Computers showing the domain structure and managed objects.
@@ -570,19 +549,17 @@ Attacker     Target         AD / DNS / DHCP     Domain Joined</div>
         <h3>Windows Client</h3>
         <p>
           A Windows client machine is used to represent a normal domain workstation inside the environment. Once
-          joined to the domain, it becomes useful for testing Windows enumeration, credential collection paths,
-          domain trust relationships, and workstation-focused attack scenarios.
+          joined to the domain, it becomes useful for testing Windows administration, client behaviour, and
+          domain-integrated lab scenarios.
         </p>
         <ul>
           <li>Role: Domain-joined workstation</li>
           <li>Purpose: simulate a normal enterprise endpoint</li>
-          <li>Future uses: SMB testing, PowerShell activity, lateral movement concepts, AD attack paths</li>
+          <li>Use case: support realistic Windows lab architecture</li>
         </ul>
 
         <div class="two-col">
           <div class="mini-card">
-            <!-- WINDOWS CLIENT DESKTOP SCREENSHOT GOES HERE -->
-            <!-- Suggested file: assets/img/lab/windows-client.png -->
             <img src="assets/img/lab/windows-client.png" alt="Windows client machine in the lab">
             <div class="caption">
               Windows client machine connected to the internal lab network.
@@ -590,8 +567,6 @@ Attacker     Target         AD / DNS / DHCP     Domain Joined</div>
           </div>
 
           <div class="mini-card">
-            <!-- DOMAIN JOIN SCREENSHOT GOES HERE -->
-            <!-- Suggested file: assets/img/lab/domain-join.png -->
             <img src="assets/img/lab/domain-join.png" alt="Windows client joined to Active Directory domain">
             <div class="caption">
               Windows client successfully joined to the Active Directory domain.
@@ -601,47 +576,11 @@ Attacker     Target         AD / DNS / DHCP     Domain Joined</div>
       </section>
 
       <section class="section">
-        <h3>Planned Offensive Security Workflows</h3>
-        <p>
-          With both Linux and Windows systems inside the same isolated environment, the lab can support multiple
-          offensive security workflows ranging from basic host discovery to enterprise-style domain enumeration.
-        </p>
-        <ul>
-          <li>Host discovery with Nmap</li>
-          <li>Service enumeration against Linux and Windows systems</li>
-          <li>Web testing against vulnerable services</li>
-          <li>SMB, LDAP, and Kerberos-related enumeration</li>
-          <li>Future BloodHound collection and Active Directory attack-path mapping</li>
-        </ul>
-
-        <div class="code-block"># Host discovery
-nmap -sn 192.168.50.0/24
-
-# Service discovery
-nmap -sV 192.168.50.X
-
-# Future Windows-focused enumeration
-smbclient -L //TARGET -N
-ldapsearch
-bloodhound-python</div>
-
-        <div class="image-block">
-          <!-- NMAP OR ENUMERATION SCREENSHOT GOES HERE -->
-          <!-- Suggested file: assets/img/lab/nmap-scan.png -->
-          <img src="assets/img/lab/nmap-scan.png" alt="Initial enumeration from Kali Linux">
-          <div class="image-caption">
-            Initial host discovery and service enumeration from the Kali attacker machine.
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
         <h3>Outcome</h3>
         <p>
           This lab provides a practical foundation for developing offensive security skills in a safe, controlled,
           and expandable environment. It combines network infrastructure, Linux targets, and Windows domain services
-          into a single portfolio project that can grow into future writeups on exploitation, post-exploitation,
-          and enterprise attack paths.
+          into a single portfolio project that can be extended as the environment grows.
         </p>
       </section>
     </main>
@@ -659,7 +598,7 @@ bloodhound-python</div>
       </section>
 
       <section class="side-section">
-        <h4>Planned Machines</h4>
+        <h4>Lab Components</h4>
         <div class="updates">
           <div>pfSense firewall</div>
           <div>Kali Linux attacker</div>
@@ -683,7 +622,6 @@ bloodhound-python</div>
           <div>assets/img/lab/ad-users-computers.png</div>
           <div>assets/img/lab/windows-client.png</div>
           <div>assets/img/lab/domain-join.png</div>
-          <div>assets/img/lab/nmap-scan.png</div>
         </div>
       </section>
     </aside>
